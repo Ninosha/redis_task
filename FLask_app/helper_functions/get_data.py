@@ -22,22 +22,22 @@ def api_data(url, _id):
 def redis_base(_id):
     """
     :param _id: id passed from user via url parameter
-    :return: if data in redis: data, if data not in redis: error message
+    :return: if data in redis_task: data, if data not in redis_task: error message
     """
 
     data = api_data(BASE_URL, _id)
 
     def check_redis_data():
         """
-        :return: if data in redis: gets data and returns it, if data not in redis: sets data and returns fetched data
+        :return: if data in redis_task: gets data and returns it, if data not in redis_task: sets data and returns fetched data
         """
         r = redis.Redis()
         res_key = r.get(_id)
         if bool(res_key):
-            print("getting from redis")
+            print("getting from redis_task")
             return res_key
         else:
-            print("setting in redis")
+            print("setting in redis_task")
             r.set(_id, data)
             return data
 
@@ -45,3 +45,4 @@ def redis_base(_id):
         return check_redis_data()
     else:
         return "error: data with the id doesn't exist"
+#
